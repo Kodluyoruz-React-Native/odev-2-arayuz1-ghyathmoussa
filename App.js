@@ -14,75 +14,73 @@ import {
   Platform,
   Keyboard,
 } from 'react-native';
-const wid = Dimensions.get('window').width
-const hie = Dimensions.get('window').height
-const color1 = '#5f6ba7';
+
+const wid = Dimensions.get('window').width;
+const hie = Dimensions.get('window').height;
+
 const platForm = Platform.OS === 'android';
 
 if (platForm) { UIManager.setLayoutAnimationEnabledExperimental(true); } //animasyonları aktif et (sadece android de gerekli)
 
-class UI1 extends React.Component {
+class UI2 extends React.Component {
+
+  componentDidUpdate() {
+    LayoutAnimation.easeInEaseOut();
+  }
 
   state = {
     page: '',
-    klavye: false
+    klavye: false,
   };
 
   signInOnPress = () => {
     this.setState({ page: 'signIn' })
-    console.log('Sign In');
   }
+
   signUpPress = () => {
     this.setState({ page: 'signUp' })
-  }
-
-  signIn() {
-    return (
-      <View style={signInstyle.main}>
-        <View>
-          <Text style={signInstyle.fText}>Log In</Text>
-          <Text style={signInstyle.sText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry</Text>
-        </View>
-
-        <View>
-          <View style={signInstyle.inputs}>
-            <TextInput
-              autoCompleteType={"email"}
-              style={signInstyle.input}
-            >
-              E-mail
-            </TextInput>
-            <TextInput
-              style={signInstyle.input}
-              autoCompleteType={"password"}
-            >
-              Password
-            </TextInput>
-          </View>
-          <View style={signInstyle.btn1}>
-            <TouchableOpacity style={[style.btn, signInstyle.logInBtn]}>
-              <Text style={style.btnTxt}>Log In</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={signInstyle.andTxt}> if you do not have account please register now</Text>
-          <View>
-          <TouchableOpacity 
-          onPress={this.signUpPress}
-          style={[style.btn, signInstyle.register]}>
-              <Text style={style.btnTxt}>Register</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View >
-    );
   }
 
   signUp() {
     return (
       <View style={signInstyle.main}>
         <View>
-          <Text style={signInstyle.fText}>Register</Text>
-          <Text style={signInstyle.sText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry</Text>
+          <Text style={style.logo}>BlogWorx</Text>
+          <View style={style.line} />
+          <Text style={style.expo}>Express yor self</Text>
+        </View>
+        <View style={signInstyle.registerBox}>
+          <Text style={signInstyle.signUpTxt}>Sig Up</Text>
+          <View style={style.line} />
+        </View>
+
+        <View style={signInstyle.mainReg}>
+          <View style={signInstyle.inputs}>
+            <TextInput
+              autoCompleteType={"email"}
+              style={signInstyle.inputRegister}
+            >
+              E-mail
+            </TextInput>
+          </View>
+          <View>
+            <TouchableOpacity style={[style.btn, signInstyle.register]}>
+              <Text style={style.btnTxt}>Register</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View >
+
+    );
+  }
+
+  signIn() {
+    return (
+      <View style={signInstyle.main}>
+        <View>
+          <Text style={style.logo}>BlogWorx</Text>
+          <View style={style.line} />
+          <Text style={style.expo}>Express yor self</Text>
         </View>
 
         <View>
@@ -99,49 +97,56 @@ class UI1 extends React.Component {
             >
               Password
             </TextInput>
-            <TextInput
-              style={signInstyle.input}
-              autoCompleteType={"password"}
-            >
-              rePassword
-            </TextInput>
+            <Text style={signInstyle.forget}>Forget Password</Text>
+          </View>
+          <View style={signInstyle.btn1}>
+            <TouchableOpacity style={[style.btn, signInstyle.logInBtn]}>
+              <Text style={style.btnTxt}>Log In</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={signInstyle.orTxtBox}>
+            <Text style={signInstyle.orTxt}>OR</Text>
           </View>
           <View>
-          <TouchableOpacity style={[style.btn, signInstyle.register]}>
+            <TouchableOpacity
+              onPress={this.signUpPress}
+              style={signInstyle.register}>
               <Text style={style.btnTxt}>Register</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View >
+      </View>
     );
   }
 
   mainPage() {
     return (
       <View style={style.main}>
-        <View style={style.mainTxt}>
-          <Text style={style.fText}> Welcome </Text>
-          <Text style={style.sText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry</Text>
-
+        <View style={style.txt}>
+          <Text style={style.logo}>BlogWorx</Text>
+          <View style={style.line} />
+          <Text style={style.expo}>Express yor self</Text>
         </View>
-        <View>
-          <TouchableOpacity onPress={this.signInOnPress} style={style.btn}>
-            <Text style={style.btnTxt}>Next</Text>
-          </TouchableOpacity>
+        <View style={style.bottom}>
+          <View style={style.btnContainer}>
+            <TouchableOpacity onPress={this.signInOnPress} style={style.btn}>
+              <Text style={style.btnTxt}>Get Start</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
   }
+
   render() {
     return (
       <ImageBackground
-
         style={style.imageSec}
-        source={require('./images/ui2_b1.png')}
+        source={require('./images/ui3_b1.png')}
       >
-        {this.state.page === '' && this.mainPage()}
+        {this.state.page === 'signUp' && this.signUp()}
         {this.state.page === 'signIn' && this.signIn()}
-        {this.state.page==='signUp' && this.signUp()}
+        {this.state.page === '' && this.mainPage()}
       </ImageBackground>
     );
   }
@@ -155,45 +160,59 @@ const style = StyleSheet.create({
     height: null,
   },
   main: {
-    position: 'relative',
-    top: '65%',
-    left: '10%',
+    width: wid,
+    height: hie
+  },
+  txt: {
+    height: hie * 0.50,
+    width: '100%',
+    position: 'absolute',
+    top: '20%',
 
   },
-  fText: {
-    position: 'relative',
-    fontSize: 34,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#000',
-    left: 0
-
-  },
-  mainTxt: {
-    width: wid * 0.80,
+  logo: {
     textAlign: 'center',
-    margin: 0,
-    marginBottom: 90,
+    fontSize: 50,
+    color: '#fff',
+    fontWeight: 'bold',
+    marginBottom: 20
+  },
+  line: {
+    width: wid * 0.15,
+    backgroundColor: '#fff',
+    height: hie * 0.005,
+    left: '45%',
+    marginBottom: 20,
+    marginTop: 5
+  },
+  expo: {
+    marginLeft: 10,
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#fff',
 
   },
-  sText: {
+  bottom: {
+    width: wid * 0.80,
     position: 'relative',
-    marginLeft: 7
+    top: '80%'
+  },
+  btnContainer: {
+    alignItems: 'center',
   },
   btn: {
-    width: wid * 0.80,
-    backgroundColor: color1,
-    height: 40,
-    borderRadius: 50
+    textAlign: 'center',
+    backgroundColor: '#826bdf',
+    width: '100%',
+    height: hie * 0.08,
+    justifyContent: 'center',
+    left: '14%'
   },
   btnTxt: {
     textAlign: 'center',
     fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 5,
     color: '#fff'
-  },
-
+  }
 });
 
 const signInstyle = StyleSheet.create({
@@ -211,7 +230,7 @@ const signInstyle = StyleSheet.create({
     textAlign: 'center'
   },
   sText: {
-    width: wid * 0.90,
+    width: wid * 0.9,
     textAlign: 'center',
     margin: 0,
     padding: 10,
@@ -222,14 +241,15 @@ const signInstyle = StyleSheet.create({
     width: wid * 0.90,
     padding: 10,
     justifyContent: 'center',
-    marginLeft: 10
+    marginLeft: 20
   },
   input: {
     backgroundColor: '#fff',
     margin: 10,
-    borderRadius: 50,
     padding: 10,
-    color: '#eaeaeb'
+    color: '#826bdf',
+    borderWidth: 1,
+    borderColor: '#826bdf'
   },
   btn1: {
     width: wid * 0.80,
@@ -237,7 +257,7 @@ const signInstyle = StyleSheet.create({
   },
   logInBtn: {
     alignItems: 'center',
-    marginLeft: 35
+    left:'10%'
   },
   andTxt: {
     width: wid * 0.75,
@@ -245,13 +265,59 @@ const signInstyle = StyleSheet.create({
     fontSize: 18,
     color: '#000',
     textAlign: 'center',
-    marginLeft:40
+    marginLeft: 40
   },
-  register:{
-    marginTop:20,
+  register: {
+    textAlign: 'center',
+    backgroundColor: '#826bdf',
+    width: wid * 0.82,
+    height: hie * 0.08,
+    justifyContent: 'center',
+    marginTop: 20,
     alignItems: 'center',
-    marginLeft: 35
-  }
+    left: '8 %'
+  },
+  forget: {
+    fontSize: 16,
+    color: '#826bdf',
+    margin: 20,
+    left: '55%'
+  },
+  orTxtBox: {
+    width: wid * 0.08,
+    height: wid * 0.08,
+    borderWidth: 1,
+    borderRadius: wid * 0.08 / 2,
+    left:'45%',
+    marginTop:15
+  },
+  orTxt: {
+    marginTop:5,
+    textAlign: 'center',
+  },
+  mainReg: {
+    top: '20%'
+  },
+  registerBox: {
+    marginTop: 20,
+    margin: 10
+  },
+  signUpTxt: {
+    fontSize: 24,
+    color: '#fff',
+    textAlign: 'center',
+    paddingBottom: 20,
+    marginBottom: 10,
+    marginTop: 20,
+    left: '2%'
+
+  },
+  inputRegister: {
+    backgroundColor: '#826bdf',
+    padding: 10,
+    color: '#eaeaeb'
+  },
+
 });
 
-export default UI1;
+export default UI2;
